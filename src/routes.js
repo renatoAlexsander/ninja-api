@@ -1,4 +1,5 @@
 const { Router } = require("express");
+const Ninja = require("./models/ninja");
 
 const router = Router();
 
@@ -9,8 +10,8 @@ router.get("/ninjas", (req, res) => {
 });
 
 router.post("/ninja", (req, res) => {
-  return res.send({
-    type: "POST",
+  Ninja.create(req.body).then((ninja) => {
+    return res.send(ninja);
   });
 });
 

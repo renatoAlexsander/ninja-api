@@ -1,9 +1,11 @@
-const mongoose, { Schema } = require('mongoose');
+const mongoose = require("mongoose");
+
+const Schema = mongoose.Schema;
 
 const NinjaSchema = new Schema({
   name: {
     type: String,
-    required: [true, 'name field is required.']
+    required: [true, "name field is required."],
   },
   rank: {
     type: String,
@@ -11,9 +13,9 @@ const NinjaSchema = new Schema({
   available: {
     type: Boolean,
     default: false,
-  }
-})
+  },
+});
 
-const Ninja = mongoose.model('ninja', NinjaSchema);
+const Ninja = mongoose.model("ninja", NinjaSchema);
 
 module.exports = Ninja;
