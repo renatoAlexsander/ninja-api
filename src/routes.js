@@ -3,46 +3,50 @@ const Ninja = require("./models/ninja");
 
 const router = Router();
 
-router.get("/ninjas", (req, res) => {
-  return res.send({
-    type: "GET",
-  });
+router.get("/ninjas", async (req, res) => {
+  const ninjas = await Ninja.find({});
+
+  return res.send(ninjas);
 });
 
-router.post("/ninja", (req, res, next) => {
-  Ninja.create(req.body)
-    .then((ninja) => {
-      return res.send(ninja);
-    })
-    .catch(next);
+router.post("/ninja", async (req, res) => {
+  try {
+    const ninja = await Ninja.create(req.body);
+
+    return res.send(ninja);
+  } catch (error) {
+    res.status(500).send({
+      error: error._message,
+    });
+  }
 });
 
-router.put("/ninja/:id", (req, res) => {
+router.put("/ninja/:id", async (req, res) => {
   const { id } = req.params;
 
-  Ninja.findByIdAndUpdate(
+  await Ninja.findByIdAndUpdate(
     {
       _id: id,
     },
     req.body
-  ).then(function () {
-    Ninja.findOne({
-      _id: id,
-    }).then(function (ninja) {
-      res.send(ninja);
-    });
+  );
+
+  const ninjaUpdated = await Ninja.findOne({
+    _id: id,
   });
+
+  return res.send(ninjaUpdated);
 });
 
-router.delete("/ninja/:id", (req, res) => {
+router.delete("/ninja/:id", async (req, res) => {
   const { id } = req.params;
 
-  Ninja.findByIdAndRemove({
+  await Ninja.findByIdAndRemove({
     _id: id,
-  }).then((ninja) => {
-    return res.send({
-      message: "Ninja was removed.",
-    });
+  });
+
+  return res.send({
+    message: "Ninja was removed.",
   });
 });
 
