@@ -18,8 +18,19 @@ router.post("/ninja", (req, res, next) => {
 });
 
 router.put("/ninja/:id", (req, res) => {
-  return res.send({
-    type: "PUT",
+  const { id } = req.params;
+
+  Ninja.findByIdAndUpdate(
+    {
+      _id: id,
+    },
+    req.body
+  ).then(function () {
+    Ninja.findOne({
+      _id: id,
+    }).then(function (ninja) {
+      res.send(ninja);
+    });
   });
 });
 
