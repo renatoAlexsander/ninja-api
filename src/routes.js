@@ -9,10 +9,12 @@ router.get("/ninjas", (req, res) => {
   });
 });
 
-router.post("/ninja", (req, res) => {
-  Ninja.create(req.body).then((ninja) => {
-    return res.send(ninja);
-  });
+router.post("/ninja", (req, res, next) => {
+  Ninja.create(req.body)
+    .then((ninja) => {
+      return res.send(ninja);
+    })
+    .catch(next);
 });
 
 router.put("/ninja/:id", (req, res) => {
