@@ -24,8 +24,14 @@ router.put("/ninja/:id", (req, res) => {
 });
 
 router.delete("/ninja/:id", (req, res) => {
-  return res.send({
-    type: "DELETE",
+  const { id } = req.params;
+
+  Ninja.findByIdAndRemove({
+    _id: id,
+  }).then((ninja) => {
+    return res.send({
+      message: "Ninja was removed.",
+    });
   });
 });
 

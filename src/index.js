@@ -9,7 +9,7 @@ app.use("/api", routes);
 
 app.use(function (err, req, res, next) {
   console.log(err);
-  return res.send({
+  return res.status(422).send({
     error: err._message,
   });
 });
